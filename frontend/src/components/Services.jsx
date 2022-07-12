@@ -1,10 +1,16 @@
 import React from "react";
 import styled from "styled-components";
+import Exemple from "./Modal";
+import MyVerticallyCenteredModal from "./Modal";
+
 import cloche from "../assets/cloche1.png";
 import { IoMdRestaurant } from "react-icons/io";
 import { GoCalendar } from "react-icons/go";
 import {useState, useEffect} from 'react';
 import { TitleStyles } from "./ReusableStyles";
+import API from "../API";
+import { ListGroup, Card, Button, Form } from "react-bootstrap";
+
 // export default function Services() {
 //   return (
 //     <Section id="services">
@@ -68,43 +74,93 @@ import { TitleStyles } from "./ReusableStyles";
 // }
 
 export default function Services() {
+  const [modalShow, setModalShow] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [serviceId, setServicesId] = useState(null);
+  const [services, setServices] = useState([])
 
-  const [title, setTitle] = useState([])
-  useEffect (() => {
-    setTitle([
-      {
-        title:'Ce que nous faisons?',
-        description: "Des plats fait avec des produits de qualité, de la passion, du coeur, des produits du terroir et locaux. Dans notre cuisine à Vauthiermont, nous favorisons la cuisine à l'ancienne. Fournil au feu de bois - Spécialités comtoise.",
-      },
-    ])
-  }, [])
+  useEffect(() => {
+    refreshServices();
+  }, []);
+
+
+  const refreshServices = () => {
+    API.get("/")
+      .then((res) => {
+        setServices(res.data);
+        // setName(res[0].title)
+        // setGenre(res[0].genre)
+        // setStarring(res[0].starring)
+        // setMovieId(res[0].id)
+      })
+      .catch(console.error);
+  };
+
+  const handleSubmit = (item) => {
+    this.toggle();
+
+    item.hashview = String(this.props.id)
+    if (item.id) {
+        API.put(`/api/services/${item.id}/`, item)
+        .then((res) => this.refreshServices());
+      return;
+    }
+      API.post("/api/services/", item)
+      .then((res) => this.refreshServices());
+  };
+
+
   return (
     <Section id="services">
-      {title.map((title, index) => {
+      {services.map((services, index) => {
+        console.log(services)
         return(
           <div className="title">
             <Service>
-              <h1 className="yellow">{title.title}</h1> 
+              <h1 className="yellow">{services.title}</h1> 
               <span>
-                <button
+              <Button
+                variant="primary"
+                type="button"
+                // onClick={() => editItem(services)}
+                className="mx-2"
+              >
+                Update
+              </Button>
+              <Button variant="primary" onClick={() => setModalShow(true)}>
+                Launch vertically centered modal
+              </Button>
+
+              <MyVerticallyCenteredModal
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+                activeItem={services}
+                onSave={() => handleSubmit()}
+              />
+              {/* <button onClick={() => new Modal(services)}>Open Modal</button> */}
+                {/* <button
                   className="btn btn-secondary mr-2"
                   // onClick={() => this.editItem(item)}
                 >
                   Edit
-                </button>
+                </button> */}
               </span>
+          
             </Service>
             <div className="service-descriptions">
               <Service>
                 <p>
-                  {title.description}
+                  {services.description}
                   <span>
-                  <button
-                    className="btn btn-secondary mr-2"
-                    // onClick={() => this.editItem(item)}
+                  <Button
+                    variant="primary"
+                    type="button"
+                    // onClick={() => onUpdate(serviceId)}
+                    className="mx-2"
                   >
-                    Edit
-                  </button>
+                    Update
+                  </Button>
                 </span> 
                 </p>
                 

@@ -10,7 +10,7 @@ export default function Navbar() {
   return (
     <>
       <Nav>
-        <div className="brand">
+        <div className="brand1">
           <p className="social-name">La Petite Charrue</p>
           <p className="social-name-two">Auberge du Terroir</p>
           <div className="toggle">
@@ -97,11 +97,12 @@ const Nav = styled.nav`
   align-items: center;
   height: 100px;
   padding: 0 4vw;
-  .brand {
+  .brand1 {
     .social-name{
       color: #7a032a;
       font-family: Brush Script MT, Brush Script Std, cursive;
       font-size: 2em;
+      margin-bottom: 0;
     }
     .social-name-two{
       color: black;
@@ -138,7 +139,7 @@ const Nav = styled.nav`
     }
   }
   @media screen and (min-width: 260px) and (max-width: 1080px) {
-    .brand {
+    .brand1 {
       display: flex;
       justify-content: space-between;
       align-items: center;
