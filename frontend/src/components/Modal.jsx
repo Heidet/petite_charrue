@@ -2,14 +2,11 @@ import React, { Component } from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import API from "../API";
 import {useState, useEffect} from 'react';
-import axios from 'axios';
 
 
 
 export default function ModalHeaderServices(props) {
-    const [message, setMessage] = useState('');
 
     return (
         <Modal
