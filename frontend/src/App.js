@@ -46,9 +46,9 @@ export default function App() {
       <Services />
       <Portfolio />
       {/* <Testimonials /> */}
-      {/* <Route exact path="/Carte">
+      {/* <Route exact path="/Carte"> */}
           <Products />
-      </Route> */}
+      {/* </Route> */}
       <Newsletter />
       <Footer />
     </Router>,

@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Exemple from "./Modal";
 import MyVerticallyCenteredModal from "./Modal";
-
 import cloche from "../assets/cloche1.png";
 import { IoMdRestaurant } from "react-icons/io";
 import { GoCalendar } from "react-icons/go";
@@ -10,6 +8,7 @@ import {useState, useEffect} from 'react';
 import { TitleStyles } from "./ReusableStyles";
 import API from "../API";
 import { ListGroup, Card, Button, Form } from "react-bootstrap";
+import { BsFillPencilFill } from "react-icons/bs";
 
 // export default function Services() {
 //   return (
@@ -84,6 +83,11 @@ export default function Services() {
     refreshServices();
   }, []);
 
+  // const onUpdate = (id) => {
+  //   console.log(id)
+  //   // let item = { description };
+  //       // API.patch(`/${id}/`, item).then((res) => refreshServices());
+  // };
 
   const refreshServices = () => {
     API.get("/")
@@ -114,37 +118,15 @@ export default function Services() {
   return (
     <Section id="services">
       {services.map((services, index) => {
-        console.log(services)
+        // console.log(services)
         return(
           <div className="title">
             <Service>
               <h1 className="yellow">{services.title}</h1> 
               <span>
-              <Button
-                variant="primary"
-                type="button"
-                // onClick={() => editItem(services)}
-                className="mx-2"
-              >
-                Update
-              </Button>
-              <Button variant="primary" onClick={() => setModalShow(true)}>
-                Launch vertically centered modal
-              </Button>
-
-              <MyVerticallyCenteredModal
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-                activeItem={services}
-                onSave={() => handleSubmit()}
-              />
-              {/* <button onClick={() => new Modal(services)}>Open Modal</button> */}
-                {/* <button
-                  className="btn btn-secondary mr-2"
-                  // onClick={() => this.editItem(item)}
-                >
-                  Edit
-                </button> */}
+                <ButtonEdit onClick={() => setModalShow(true)}>
+                  <BsFillPencilFill />
+                </ButtonEdit>
               </span>
           
             </Service>
@@ -153,19 +135,19 @@ export default function Services() {
                 <p>
                   {services.description}
                   <span>
-                  <Button
-                    variant="primary"
-                    type="button"
-                    // onClick={() => onUpdate(serviceId)}
-                    className="mx-2"
-                  >
-                    Update
-                  </Button>
-                </span> 
+                    <ButtonEdit onClick={() => setModalShow(true)}>
+                      <BsFillPencilFill />
+                    </ButtonEdit>
+                  </span>
                 </p>
-                
               </Service>
             </div>
+              <MyVerticallyCenteredModal
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+                activeItem={services}
+                // onSave={() => onUpdate()}
+              />
           </div>
         )
       })}
@@ -224,10 +206,13 @@ const TraiteurStyle = styled(IoMdRestaurant)`
   font-size: 3em;
 `
 
-// const EventFood = styled(BsCalendar2Event)`
-//   color: #7a032a;
-//   font-size: 3em;
-// `
+
+
+const ButtonEdit = styled.button`
+    border: none;
+    background-color: white;
+    margin-left: 1em;
+`
 // const EventFood = styled(BsCalendar2Event)`
 //   color: #7a032a;
 //   font-size: 3em;

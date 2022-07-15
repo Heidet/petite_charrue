@@ -10,9 +10,9 @@ export default function Hero() {
       <div className="content">
 
         <div className="info">
-          <h2>Auberge La Petite Charrue</h2>
+          <h2 className="titleSlider">Auberge La Petite Charrue</h2>
           <em>
-            <h1>
+            <h1 className="contentTextSlider">
               Comtois rends-toi, Nenni ma foi. 
             </h1>
             <h3>
@@ -40,6 +40,9 @@ const Section = styled.section`
     }
   }
   .content {
+    .contentTextSlider {
+      width: 16em;
+    }
     position: absolute;
     top: 0;
     display: flex;
