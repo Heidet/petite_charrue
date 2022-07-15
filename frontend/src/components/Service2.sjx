@@ -1,0 +1,14 @@
+<div className="service">
+              <img src={cloche} alt="" />
+  
+              <p>
+                {/* {services.content2} */}
+                <span>
+                    <ButtonEdit onClick={() => setModalShow(true)}>
+                      <BsFillPencilFill />
+                    </ButtonEdit>
+                </span>
+                { /* <span>Lorem Ipsum</span>{" "} */}
+              </p>
+              {/* <button>Read More</button> */}
+            </div>

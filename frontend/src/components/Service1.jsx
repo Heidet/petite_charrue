@@ -7,7 +7,6 @@ import { GoCalendar } from "react-icons/go";
 import {useState, useEffect} from 'react';
 import { TitleStyles } from "./ReusableStyles";
 import API from "../API";
-import { ListGroup, Card, Button, Form } from "react-bootstrap";
 import { BsFillPencilFill } from "react-icons/bs";
 
 // export default function Services() {
@@ -74,14 +73,11 @@ import { BsFillPencilFill } from "react-icons/bs";
 
 export default function Services() {
   const [modalShow, setModalShow] = useState(false);
-  // const [title, setTitle] = useState("");
-  // const [description, setDescription] = useState("");
-  // const [serviceId, setServicesId] = useState(null);
-  const [services, setServices] = useState([])
+  const [service, setService] = useState([])
   // console.log()
 
   useEffect(() => {
-    refreshServices();
+    refreshService();
   }, []);
 
   // const onUpdate = (id) => {
@@ -90,10 +86,10 @@ export default function Services() {
   //       // API.patch(`/${id}/`, item).then((res) => refreshServices());
   // };
 
-  const refreshServices = () => {
-    API.get("api/services/")
+  const refreshService = () => {
+    API.get("/")
       .then((res) => {
-        setServices(res.data);
+        setService(res.data);
         // setName(res[0].title)
         // setGenre(res[0].genre)
         // setStarring(res[0].starring)
@@ -102,29 +98,9 @@ export default function Services() {
       .catch(console.error);
   };
 
-  const handleMessageChange = event => {
-    if (event.target.id == 'title'){
-      services[0].title = event.target.value
-    }
-    if (event.target.id == 'description'){
-      services[0].description = event.target.value
-    }
-    console.log(services);
-  };
-
-  const handleSubmit = (item) => {
-    if (services.id) {
-      API.put(`api/services/${services.id}/`, services)
-        // .then((res) => this.refreshList());
-      return;
-    }
-    API.post("", services)
-    //   .then((res) => this.refreshList());
-  };
-
   return (
     <Section id="services">
-      {services.map((services, index) => {
+      {/* {services.map((services, index) => {
         console.log(services)
         return(
           <div className="title">
@@ -152,14 +128,12 @@ export default function Services() {
               <ModalHeaderServices
                 show={modalShow}
                 onHide={() => setModalShow(false)}
-                handleSubmit = {() => handleSubmit()}
                 activeItem={services}
-                onChange = {handleMessageChange}
                 // onSave={() => onUpdate()}
               />
           </div>
         )
-      })}
+      })} */}
 
           <div className="services">
             <div className="service">
@@ -167,9 +141,9 @@ export default function Services() {
               <p>
                 {/* {services.content1} */}
                 <span>
-                  <ButtonEdit onClick={() => setModalShow(true)}>
-                    <BsFillPencilFill />
-                  </ButtonEdit>
+                    <ButtonEdit onClick={() => setModalShow(true)}>
+                      <BsFillPencilFill />
+                    </ButtonEdit>
                 </span>
                 {/* <span>Lorem Ipsum</span>{" "} */}
               </p>
@@ -189,9 +163,9 @@ export default function Services() {
               <p>
                 {/* {services.content2} */}
                 <span>
-                  <ButtonEdit onClick={() => setModalShow(true)}>
-                    <BsFillPencilFill />
-                  </ButtonEdit>
+                    <ButtonEdit onClick={() => setModalShow(true)}>
+                      <BsFillPencilFill />
+                    </ButtonEdit>
                 </span>
                 { /* <span>Lorem Ipsum</span>{" "} */}
               </p>
