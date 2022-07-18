@@ -7,29 +7,29 @@ import product4 from "../../assets/product4.jpg";
 import { imageZoomEffect, TitleStyles } from "../ReusableStyles";
 
 
-export default function Carte() {
+export default function PlatChauds() {
 
   const data = [
     {
       image: product1,
       name: "Chicken Burger",
-      price: "$22.4/pcs",
+      price: "8 Euros",
     },
     {
       image: product2,
       name: "Toasted Bread",
-      price: "$5.5/pcs",
+      price: "8 Euros",
     },
     {
       image: product3,
       name: "Egg Sandwich",
-      price: "$8/pcs",
+      price: "8 Euros",
     },
 
     {
       image: product4,
       name: "Raspberry Cake",
-      price: "$12.5/pcs",
+      price: "8 Euros",
     },
   ];
 
@@ -37,7 +37,7 @@ export default function Carte() {
     <Section>
       <div className="title">
         <h1>
-          <span>Favourite</span> All the time!
+            Les plats chauds et les spécialités
         </h1>
       </div>
       <div className="products">
@@ -50,7 +50,7 @@ export default function Carte() {
               <h2>{product.name}</h2>
               <h3>{product.price}</h3>
               <p>He Printing and Typesetting the industry. Lorem Ipsum has</p>
-              <button>Buy Now</button>
+              <button>Voir Plus</button>
             </div>
           );
         })}

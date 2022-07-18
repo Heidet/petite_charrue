@@ -6,12 +6,16 @@ import Footer from "./components/Footer";
 import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 import Newsletter from "./components/Newsletter";
-import Carte from "./components/Carte/Carte";
+import PlatChauds from "./components/Carte/PlatChauds";
 import ScrollToTop from "./components/ScrollToTop";
 import Services from "./components/Services/Services";
 import Service from "./components/Service/Service";
+// import Multiselect from 'multiselect-react-dropdown';
 
+import Select from 'react-select'
 import scrollreveal from "scrollreveal";
+
+
 
 ReactDOM.render(
 
@@ -25,14 +29,14 @@ ReactDOM.render(
       <Newsletter />
       <Footer />
     </Route>
-    <Route exact path="/Carte">
+    <Route exact path="/plats-chauds">
       <ScrollToTop />
       <Navbar />
-      <Carte />
-      {/* <Newsletter /> */}
-
+      <PlatChauds />
       <Footer />
     </Route>
+
+
     <Route path="*">
       {/* <Error /> */}
     </Route>

@@ -1,12 +1,39 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes, Redirect } from 'react-router-dom'
 import styled from "styled-components";
-import { GiHamburgerMenu } from "react-icons/gi";
+import { GiConsoleController, GiHamburgerMenu } from "react-icons/gi";
 import { VscChromeClose } from "react-icons/vsc";
+import { browserHistory } from 'react-router'
+import { Dropdown, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem  } from 'reactstrap';
+
+
+
 export default function Navbar() {
   const [navbarState, setNavbarState] = useState(false);
+
   const html = document.querySelector("html");
   console.log(html)
   html.addEventListener("click", () => setNavbarState(false));
+
+  const handleChange = (e) => {
+    if(e.target.value === 'entrees'){
+      // <Redirect to="/somewhere/" />
+      return <Redirect to="/plats-chauds" />;
+    }else if(e.target.value === 'plats-chauds'){
+      console.log('plats-chauds');
+      <Redirect to="/plats-chauds" />
+      return  <a href="/plats-chauds">Les journées à Thèmes</a>;
+
+    }else if(e.target.value === 'desserts'){
+      console.log('')
+
+    }else{
+      console.log('')
+
+    }
+    // this.setState({selectedValue: e.target.value})
+  }
+
   return (
     <>
       <Nav>
@@ -28,7 +55,7 @@ export default function Navbar() {
         </div>
         <ul className="links">
           <li>
-            <a href="#home" className="active">
+            <a href="/" className="active">
               Accueil
             </a>
           </li>
@@ -42,9 +69,43 @@ export default function Navbar() {
             <a href="#testimonials">Les journées à Thèmes</a>
           </li>
           <li>
-            <a href="Carte">La carte</a>
+            <UncontrolledDropdown setActiveFromChild>
+              <DropdownToggle
+                caret
+                className="nav-link"
+                tag="a"
+              >
+                Carte
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem
+                  href="/entrees"
+                  tag="a"
+                >
+                  Les Entrées
+                </DropdownItem>
+                <DropdownItem
+                  href="/plats-chauds"
+                  tag="a"
+                >
+                  Les Plats Chauds
+                </DropdownItem> 
+                <DropdownItem
+                  href="/desserts"
+                  tag="a"
+                >
+                  Les Desserts
+                </DropdownItem>  
+                <DropdownItem
+                  href="/vins"
+                  tag="a"
+                >
+                  Les Vins
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
           </li>
-          <li>
+          <li className="litest">
             <a href="#newsletter">Contact</a>
           </li>
         </ul>
@@ -76,9 +137,13 @@ export default function Navbar() {
             </a>
           </li>
           <li>
-            <a href="Carte" onClick={() => setNavbarState(false)}>
-              La carte
-            </a>
+            <select className="select-menu" name="select-menu" >
+              <option selected disabled hidden>Carte</option>
+              <option value="10-15">Les entrées</option>
+              <option value="1-10">Plats Chauds</option>
+              <option value="15-20">Les desserts</option>
+              <option value="20+">Les Vins</option>
+            </select>
           </li>
           <li>
             <a href="#newsletter" onClick={() => setNavbarState(false)}>
@@ -90,6 +155,8 @@ export default function Navbar() {
     </>
   );
 }
+
+
 
 const Nav = styled.nav`
   display: flex;
@@ -122,6 +189,12 @@ const Nav = styled.nav`
     list-style-type: none;
     gap: 2rem;
     li {
+      .nav-link {
+        padding: 0;
+      }
+      .dropdown-menu{
+        width: 15em;
+      }
       a {
         color: #7a032a;
         font-weight: 600;
@@ -133,6 +206,7 @@ const Nav = styled.nav`
           color: #f9c74f;
         }
       }
+   
       .active {
         color: #f9c74f;
       }
@@ -182,7 +256,7 @@ const ResponsiveNav = styled.div`
         &:hover {
           color: #fc4958;
         }
-      }
+      }  
       &:first-of-type {
         a {
           color: #fc4958;
