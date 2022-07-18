@@ -42,7 +42,7 @@ export default function Navbar() {
             <a href="#testimonials">Les journées à Thèmes</a>
           </li>
           <li>
-            <a href="#products">La carte</a>
+            <a href="Carte">La carte</a>
           </li>
           <li>
             <a href="#newsletter">Contact</a>
@@ -76,7 +76,7 @@ export default function Navbar() {
             </a>
           </li>
           <li>
-            <a href="#products" onClick={() => setNavbarState(false)}>
+            <a href="Carte" onClick={() => setNavbarState(false)}>
               La carte
             </a>
           </li>

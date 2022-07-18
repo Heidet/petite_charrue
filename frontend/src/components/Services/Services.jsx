@@ -1,21 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 import ModalHeaderServices from "./Modal";
-import Service from "./Service";
 import { IoMdRestaurant } from "react-icons/io";
 import { GoCalendar } from "react-icons/go";
 import {useState, useEffect} from 'react';
-import { TitleStyles } from "./ReusableStyles";
-import API from "../API";
+import { TitleStyles } from "../ReusableStyles";
+import API from "../../API";
 import { BsFillPencilFill } from "react-icons/bs";
 
 export default function Services() {
   const [modalShow, setModalShow] = useState(false);
   const [services, setServices] = useState([])
 
-  // const [title, setTitle] = useState("");
-  // const [description, setDescription] = useState("");
-  // const [serviceId, setServicesId] = useState(null);
+
   useEffect(() => {
     refreshServices();
   }, []);
@@ -29,11 +26,11 @@ export default function Services() {
   };
 
   const handleMessageChange = event => {
-    if (event.target.id == 'title'){
+    if (event.target.id === 'title'){
       // console.log(services)
       services[0].title = event.target.value
     }
-    if (event.target.id == 'description'){
+    if (event.target.id === 'description'){
       services[0].description = event.target.value
     }
   };
@@ -84,7 +81,6 @@ export default function Services() {
           </div>
         )
       })}
-    <Service />
   
     </Section>
   );  

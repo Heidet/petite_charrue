@@ -1,11 +1,11 @@
 import React from "react";
-import cloche from "../assets/cloche1.png";
+import cloche from "../../assets/cloche1.png";
 import {useState, useEffect} from 'react';
 import styled from "styled-components";
 import { IoMdRestaurant } from "react-icons/io";
 import { GoCalendar } from "react-icons/go";
-import { TitleStyles } from "./ReusableStyles";
-import API from "../API";
+import { TitleStyles } from "../ReusableStyles";
+import API from "../../API";
 import ModalHeaderServices from "./Modal";
 import { BsFillPencilFill } from "react-icons/bs";
 
@@ -28,31 +28,33 @@ export default function Service() {
   };
 
   const handleMessageChange = event => {
-    if (event.target.id == 'content1'){
+    console.log(services)
+    if (event.target.id === 'content1'){
       services[0].content1 = event.target.value
     }
-    if (event.target.id == 'content2'){
-      services[0].conten2 = event.target.value
+    if (event.target.id === 'content2'){
+      services[0].content2 = event.target.value
     }
-    if (event.target.id == 'content3'){
+    if (event.target.id === 'content3'){
       services[0].content3 = event.target.value
     }
-    console.log(services);
   };
 
-  const handleSubmit = (item) => {
-    if (services.id) {
-      API.put(`api/service/${services.id}/`, services)
+  const handleSubmit = () => {
+    if (services[0].id) {
+      console.log(services)
+      API.put(`api/service/${services[0].id}/`, services[0])
         // .then((res) => this.refreshList());
       return;
     }
-    API.post("", services)
-    //   .then((res) => this.refreshList());
+    API.post(`api/service/`, services)
+      .then((res) => refreshService());
   };
 
   return (
     <Section>
     {services.map((service, index) => {
+
         return(
           <div className="services">
             
@@ -90,7 +92,7 @@ export default function Service() {
                 show={modalShow}
                 onHide={() => setModalShow(false)}
                 handleSubmit = {() => handleSubmit()}
-                activeItem={services}
+                activeItem={services[0]}
                 onChange = {handleMessageChange}
               />
           </div>
