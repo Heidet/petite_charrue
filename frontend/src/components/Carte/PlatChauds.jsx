@@ -1,37 +1,52 @@
 import React from "react";
+import {useState, useEffect} from 'react';
 import styled from "styled-components";
-import product1 from "../../assets/product1.jpg";
-import product2 from "../../assets/product2.jpg";
-import product3 from "../../assets/product3.jpg";
-import product4 from "../../assets/product4.jpg";
+import API from "../../API";
+import ModalArticle from "./Modal";
 import { imageZoomEffect, TitleStyles } from "../ReusableStyles";
+import { BsFillPencilFill } from "react-icons/bs";
 
 
 export default function PlatChauds() {
+  const [modalShow, setModalShow] = useState(false);
+  const [articles, setArticles] = useState([])
+  const [name , setName] = useState("");
+  const [description , setDescription] = useState("");
+  const [price , setPrice] = useState("");
+  const [article_img , setImage_url] = useState();
 
-  const data = [
-    {
-      image: product1,
-      name: "Chicken Burger",
-      price: "8 Euros",
-    },
-    {
-      image: product2,
-      name: "Toasted Bread",
-      price: "8 Euros",
-    },
-    {
-      image: product3,
-      name: "Egg Sandwich",
-      price: "8 Euros",
-    },
+  useEffect(() => {
+    refreshArticles();
+  }, []);
 
-    {
-      image: product4,
-      name: "Raspberry Cake",
-      price: "8 Euros",
-    },
-  ];
+  const refreshArticles = () => {
+    API.get("/api/ArticlesChauds/")
+      .then((res) => {
+        setArticles(res.data);
+      })
+      .catch(console.error);
+  };
+
+  const handlesubmit = (item) => {
+    let data = {
+      name : name ,
+      description : description,
+      price : price,
+      article_img : article_img
+    }
+    console.log(data)
+    API.post("/api/ArticlesChauds/" , data, {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    })
+    .then(res => {
+      console.log(res);
+      
+    })
+    .catch(err=> console.log(err));
+   }
+  
 
   return (
     <Section>
@@ -41,46 +56,88 @@ export default function PlatChauds() {
         </h1>
       </div>
       <div className="products">
-        {data.map((product) => {
+        {articles.map((product) => {
           return (
             <div className="product">
               <div className="image">
-                <img src={product.image} alt="" />
+                <img src={product.article_img} alt="" />
               </div>
-              <h2>{product.name}</h2>
-              <h3>{product.price}</h3>
-              <p>He Printing and Typesetting the industry. Lorem Ipsum has</p>
-              <button>Voir Plus</button>
+              <div className="product-infos">
+                <h2>{product.name}</h2>
+                <p>{product.description}</p>
+                <h3>{product.price}€</h3>
+              </div>
+              <span>
+                <ButtonEdit onClick={() => setModalShow(true)}>
+                  <BsFillPencilFill />
+                </ButtonEdit>
+              </span>
+              <div className="plus"> 
+                <button className="see">Voir Plus</button>
+              </div>
             </div>
+            
           );
         })}
+          <button
+              className="btn btn-primary"
+              onClick={() => setModalShow(true)}
+              // onClick={() => setModalShow(true)}
+            >
+              Ajouter une tâche
+          </button>
       </div>
+      <ModalArticle
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+          handleSubmit={handlesubmit}
+          activeItem={articles}
+          // onChange = {handlesubmit}
+          onChangeName={(e)=>setName(e.target.value)}
+          onChangeDescription={(e)=>setDescription(e.target.value)}
+          onChangePrice={(e)=>setPrice(e.target.value)}
+          onChangeImage={(e)=>setImage_url(e.target.files[0])}
+        />
     </Section>
   );
 }
 
+const ButtonEdit = styled.button`
+    border: none;
+    background-color: white;
+    margin-left: 1em;
+`
+
+
 const Section = styled.section`
   ${TitleStyles};
   .products {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    // display: grid;
+    // grid-template-columns: repeat(1, 1fr);
     gap: 3rem;
     margin-top: 3rem;
     .product {
       display: flex;
       padding-bottom: 3%;
-      flex-direction: column;
-      gap: 0.6rem;
+      flex-direction: initial;
+      gap: 5.6rem;
       justify-content: center;
       align-items: center;
+      .product-infos {
+        max-width: 40em;
+        min-width: 40em;
+      }
       h3 {
         color: #fc4958;
       }
+      .plus{
+        color:red;
+      }
       p {
-        text-align: center;
+        // text-align: center;
         font-size: 1.1rem;
         line-height: 2rem;
-        letter-spacing: 0.1rem;
+        letter-spacing: 0.2rem;
       }
       ${imageZoomEffect};
       .image {
@@ -93,7 +150,7 @@ const Section = styled.section`
           object-fit: cover;
         }
       }
-      button {
+      .see {
         border: none;
         padding: 1rem 4rem;
         font-size: 1.4rem;
@@ -101,10 +158,10 @@ const Section = styled.section`
         border-radius: 4rem;
         transition: 0.5s ease-in-out;
         cursor: pointer;
-        background: linear-gradient(to right, #fc4958, #e85d04);
+        background-color: #7a032a;
         text-transform: uppercase;
         &:hover {
-          background: linear-gradient(to right, #e85d04, #fc4958);
+          background: #f9c74f;
         }
       }
     }

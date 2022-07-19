@@ -15,6 +15,15 @@ class Service(models.Model):
 
     def _str_(self):
         return self.content1
+    
+class ArticlesChauds(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.TextField()
+    price = models.DecimalField(max_digits=1000, decimal_places=2)
+    article_img = models.ImageField(upload_to='media/')
+    
+    def _str_(self):
+        return self.name
 # class Service2(models.Model):
 #     content = models.TextField()
 

@@ -18,7 +18,6 @@ export default function Service() {
     refreshService();
   }, []);
 
-
   const refreshService = () => {
     API.get("/api/service/")
       .then((res) => {
@@ -50,6 +49,7 @@ export default function Service() {
     API.post(`api/service/`, services)
       .then((res) => refreshService());
   };
+
 
   return (
     <Section>
@@ -119,7 +119,6 @@ const ButtonEdit = styled.button`
     background-color: white;
     margin-left: 1em;
 `
-
 
 const Section = styled.section`
   margin: 2rem 4rem;
