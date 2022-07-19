@@ -21,5 +21,6 @@ class ArticlesChaudView(viewsets.ModelViewSet):
     serializer_class = ArticlesChaudsSerializer
     queryset = ArticlesChauds.objects.all()
 
-    
-    
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+

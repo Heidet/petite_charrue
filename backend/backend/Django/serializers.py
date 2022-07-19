@@ -22,7 +22,6 @@ class ServiceSerializer(serializers.ModelSerializer):
         
   
 class ArticlesChaudsSerializer(serializers.ModelSerializer):
-  
     class Meta:
         model = ArticlesChauds
         fields = '__all__'

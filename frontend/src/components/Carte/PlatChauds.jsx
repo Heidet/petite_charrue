@@ -3,12 +3,17 @@ import {useState, useEffect} from 'react';
 import styled from "styled-components";
 import API from "../../API";
 import ModalArticle from "./Modal";
+import SuccessModal from "./SuccessModal";
+import { Button } from 'reactstrap';
 import { imageZoomEffect, TitleStyles } from "../ReusableStyles";
 import { BsFillPencilFill } from "react-icons/bs";
 
 
 export default function PlatChauds() {
   const [modalShow, setModalShow] = useState(false);
+  const [successModal, setSuccessModalShow] = useState(false);
+  const [dataDelete, setDataDelete] = useState([]);
+
   const [articles, setArticles] = useState([])
   const [name , setName] = useState("");
   const [description , setDescription] = useState("");
@@ -19,6 +24,12 @@ export default function PlatChauds() {
     refreshArticles();
   }, []);
 
+
+  const updateAfterDelete = () => {
+    refreshArticles();
+    setSuccessModalShow(true);
+  };
+
   const refreshArticles = () => {
     API.get("/api/ArticlesChauds/")
       .then((res) => {
@@ -27,6 +38,16 @@ export default function PlatChauds() {
       .catch(console.error);
   };
 
+  const onDelete = (item) => {
+    const dataDelete = item
+    console.log(dataDelete)
+    console.log()    
+    API.delete(`/api/ArticlesChauds/${item.id}/`)
+    .then((res) => updateAfterDelete(item))
+    .catch(console.error);
+  };
+
+
   const handlesubmit = (item) => {
     let data = {
       name : name ,
@@ -34,17 +55,15 @@ export default function PlatChauds() {
       price : price,
       article_img : article_img
     }
-    console.log(data)
+    
     API.post("/api/ArticlesChauds/" , data, {
       headers: {
         'content-type': 'multipart/form-data'
       }
     })
-    .then(res => {
-      console.log(res);
-      
-    })
+    .then((res) => refreshArticles())
     .catch(err=> console.log(err));
+    setModalShow(false)
    }
   
 
@@ -72,9 +91,20 @@ export default function PlatChauds() {
                   <BsFillPencilFill />
                 </ButtonEdit>
               </span>
-              <div className="plus"> 
-                <button className="see">Voir Plus</button>
+              <span>
+              <div> 
+              <Button color="danger"
+               onClick={() => onDelete(product)}> Supprimer
+              </Button>{' '}
+
+                {/* <button  
+                  onClick={() => onDelete(product)}> Supprimer
+                </button> */}
               </div>
+              </span>
+              {/* <div className="plus"> 
+                <button className="see">Voir Plus</button>
+              </div> */}
             </div>
             
           );
@@ -97,7 +127,13 @@ export default function PlatChauds() {
           onChangeDescription={(e)=>setDescription(e.target.value)}
           onChangePrice={(e)=>setPrice(e.target.value)}
           onChangeImage={(e)=>setImage_url(e.target.files[0])}
-        />
+      />
+
+      <SuccessModal
+          show={successModal}
+          onHide={() => setSuccessModalShow(false)}
+          elements={dataDelete}
+      />
     </Section>
   );
 }
