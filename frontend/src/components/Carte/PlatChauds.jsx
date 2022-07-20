@@ -11,14 +11,16 @@ import { BsFillPencilFill } from "react-icons/bs";
 
 export default function PlatChauds() {
   const [modalShow, setModalShow] = useState(false);
+  const [addModalShow, setAddModalShow] = useState(false);
   const [successModal, setSuccessModalShow] = useState(false);
-  const [dataDelete, setDataDelete] = useState([]);
-
   const [articles, setArticles] = useState([])
   const [name , setName] = useState("");
   const [description , setDescription] = useState("");
+  const [id , setId] = useState("");
   const [price , setPrice] = useState("");
   const [article_img , setImage_url] = useState();
+  const [active , setActiveItem] = useState([]);
+
 
   useEffect(() => {
     refreshArticles();
@@ -36,47 +38,81 @@ export default function PlatChauds() {
         setArticles(res.data);
       })
       .catch(console.error);
+
   };
 
   const onDelete = (item) => {
-    const dataDelete = item
-    console.log(dataDelete)
-    console.log()    
+    console.log(item)
     API.delete(`/api/ArticlesChauds/${item.id}/`)
     .then((res) => updateAfterDelete(item))
     .catch(console.error);
   };
 
+  const onUpdate = (item) => {
+    setActiveItem(item);
+    setModalShow(true)  
+  };
 
-  const handlesubmit = (item) => {
-    let data = {
-      name : name ,
-      description : description,
-      price : price,
-      article_img : article_img
-    }
-    
-    API.post("/api/ArticlesChauds/" , data, {
-      headers: {
-        'content-type': 'multipart/form-data'
-      }
-    })
-    .then((res) => refreshArticles())
-    .catch(err=> console.log(err));
-    setModalShow(false)
-   }
+
   
+  const handlesubmit = (item) => {
+    console.log(item)
+    // let data = {
+    //   name : name,
+    //   description : description,
+    //   price : price,
+    //   article_img : article_img
+    // }
+    // console.log(data)
 
+    if(item.id){
+      let data = {
+        id: item.id,
+        name : item.name,
+        description : item.description,
+        price : item.price,
+        article_img : article_img,
+
+      }
+      console.log(data)
+      API.put(`/api/ArticlesChauds/${item.id}/`, data, {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      })
+        .then((res) => refreshArticles())
+        .catch(err=> console.log(err));
+        setModalShow(false)  
+    }else {
+      let data = {
+        name : name,
+        description : description,
+        price : price,
+        article_img : article_img
+      }
+      console.log(data)
+      API.post("/api/ArticlesChauds/" , data, {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      })
+        .then((res) => refreshArticles())
+        .catch(err=> console.log(err));
+      setAddModalShow(false)
+    }
+
+  }
+  
   return (
     <Section>
-      <div className="title">
+      <div className="title"> 
         <h1>
-            Les plats chauds et les spécialités
-        </h1>
+          Les plats chauds et les spécialités
+        </h1>   
       </div>
-      <div className="products">
-        {articles.map((product) => {
-          return (
+      {articles.map((product) => {
+      return (
+        <div className="products">
             <div className="product">
               <div className="image">
                 <img src={product.article_img} alt="" />
@@ -87,14 +123,14 @@ export default function PlatChauds() {
                 <h3>{product.price}€</h3>
               </div>
               <span>
-                <ButtonEdit onClick={() => setModalShow(true)}>
+                <ButtonEdit onClick={() => onUpdate(product)}>
                   <BsFillPencilFill />
                 </ButtonEdit>
               </span>
               <span>
               <div> 
               <Button color="danger"
-               onClick={() => onDelete(product)}> Supprimer
+                onClick={() => onDelete(product)}> Supprimer
               </Button>{' '}
 
                 {/* <button  
@@ -106,35 +142,38 @@ export default function PlatChauds() {
                 <button className="see">Voir Plus</button>
               </div> */}
             </div>
-            
-          );
-        })}
-          <button
-              className="btn btn-primary"
-              onClick={() => setModalShow(true)}
-              // onClick={() => setModalShow(true)}
-            >
-              Ajouter une tâche
-          </button>
-      </div>
-      <ModalArticle
+        
+        <ModalArticle
           show={modalShow}
           onHide={() => setModalShow(false)}
-          handleSubmit={handlesubmit}
-          activeItem={articles}
-          // onChange = {handlesubmit}
+          handleSubmit={() => handlesubmit(product)}
+          activeItem={active}
           onChangeName={(e)=>setName(e.target.value)}
           onChangeDescription={(e)=>setDescription(e.target.value)}
           onChangePrice={(e)=>setPrice(e.target.value)}
           onChangeImage={(e)=>setImage_url(e.target.files[0])}
-      />
-
-      <SuccessModal
-          show={successModal}
-          onHide={() => setSuccessModalShow(false)}
-          elements={dataDelete}
-      />
+        />
+        <ModalArticle
+          show={addModalShow}
+          onHide={() => setAddModalShow(false)}
+          handleSubmit={handlesubmit}
+          activeItem={articles}
+          onChangeName={(e)=>setName(e.target.value)}
+          onChangeDescription={(e)=>setDescription(e.target.value)}
+          onChangePrice={(e)=>setPrice(e.target.value)}
+          onChangeImage={(e)=>setImage_url(e.target.files[0])}
+        />
+        </div>
+        );
+      })}
+      <button
+          className="btn btn-primary"
+          onClick={() => setAddModalShow(true)}
+        >
+          Ajouter un article
+      </button>
     </Section>
+    
   );
 }
 
@@ -213,4 +252,4 @@ const Section = styled.section`
       grid-template-columns: repeat(2, 1fr);
     }
   }
-`;
+`

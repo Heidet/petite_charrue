@@ -7,6 +7,9 @@ import { Form, FormGroup, Label, Col, Input, FormText, } from 'reactstrap';
 
 
 export default function ModalArticle(props) {
+
+    
+
     return (
         <Modal
             {...props}
@@ -24,39 +27,43 @@ export default function ModalArticle(props) {
             
             <Form>
                 <FormGroup>
-                    <Label for="exampleEmail">
+                    <Label for="titre">
                         Titre
                     </Label>
                     <Input
                     id="name"
                     name="name"
-                    placeholder="with a placeholder"
+                    defaultValue={props.activeItem.name}
+                    // value={props.activeItem.name}
+                    placeholder="Choisir Titre"
                     onChange={props.onChangeName}
 
                     // type="titre"
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label for="exampleEmail">
+                    <Label for="description">
                         Description
                     </Label>
                     <Input
                     id="description"
                     name="description"
-                    placeholder="with a placeholder"
+                    defaultValue={props.activeItem.description}
+                    placeholder="Choisir Description"
                     onChange={props.onChangeDescription}
 
                     // type="email"
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label for="exampleEmail">
+                    <Label for="price">
                         Prix
                     </Label>
                     <Input
                     id="price"
                     name="price"
-                    placeholder="with a placeholder"
+                    defaultValue={props.activeItem.price}
+                    placeholder="Choisir Prix"
                     onChange={props.onChangePrice}
 
                     // type="email"
@@ -74,6 +81,7 @@ export default function ModalArticle(props) {
                         id="image_url"
                         type="file" 
                         name="file"
+                        // filename={props.activeItem.article_img}
                         accept="image/jpeg,image/png,image/gif"
                         onChange={props.onChangeImage}
 
@@ -85,8 +93,8 @@ export default function ModalArticle(props) {
                 </FormGroup>
             </Form>
             <Modal.Footer>
-                <Button onClick={props.onHide}>Close</Button>
-                <Button onClick={props.handleSubmit}>Save</Button>
+                <Button onClick={props.onHide}>Annuler</Button>
+                <Button onClick={props.handleSubmit}>Sauvegarder</Button>
             </Modal.Footer>
         </Modal>
     );
