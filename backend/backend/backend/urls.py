@@ -33,6 +33,7 @@ router.register(r'ArticlesChauds', views.ArticlesChaudView, 'Articles')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('login/', include("Django.urls"))
 ]
 
 if settings.DEBUG:
