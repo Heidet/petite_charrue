@@ -5,7 +5,7 @@ import API from "../../API";
 import ModalArticle from "./Modal";
 import SuccessModal from "./SuccessModal";
 import { Button } from 'reactstrap';
-import { imageZoomEffect, TitleStyles } from "../ReusableStyles";
+import { imageZoomEffect, TitleStyles } from "../../components/ReusableStyles";
 import { BsFillPencilFill } from "react-icons/bs";
 import AuthContext from "../../context/AuthContext";
 
@@ -22,8 +22,7 @@ export default function PlatChauds() {
   const [price , setPrice] = useState("");
   const [article_img , setImage_url] = useState();
   const [active , setActiveItem] = useState([]);
-
-
+  const { user, logoutUser, authTokens } = useContext(AuthContext);
 
   useEffect(() => {
     refreshArticles();
@@ -68,7 +67,7 @@ export default function PlatChauds() {
         article_img : article_img,
 
       }
-      console.log(data)
+
       API.put(`/api/ArticlesChauds/${item.id}/`, data, {
         headers: {
           'content-type': 'multipart/form-data'
@@ -78,16 +77,18 @@ export default function PlatChauds() {
         .catch(err=> console.log(err));
         setModalShow(false)  
     }else {
+      console.log(authTokens.access)
       let data = {
         name : name,
         description : description,
         price : price,
         article_img : article_img
       }
-      console.log(data)
+
       API.post("/api/ArticlesChauds/" , data, {
         headers: {
-          'content-type': 'multipart/form-data'
+          'content-type': 'multipart/form-data',
+          // 'Authorization': `Bearer ${JSON.parse(authTokens)}`
         }
       })
         .then((res) => refreshArticles())
@@ -118,24 +119,35 @@ export default function PlatChauds() {
                 <h3>{product.price}€</h3>
               </div>
               <span>
-                <ButtonEdit onClick={() => onUpdate(product)}>
-                  <BsFillPencilFill />
-                </ButtonEdit>
+                {user ? (
+                  <>
+                  <ButtonEdit onClick={() => onUpdate(product)}>
+                    <BsFillPencilFill />
+                  </ButtonEdit>
+                  </>
+                ) : (
+                  <>
+                    {/* <Link to="/login">Login</Link> */}
+                    {/* <Link to="/register">Register</Link>  */}
+                  </>
+                )}
               </span>
               <span>
-              <div> 
-              <Button color="danger"
-                onClick={() => onDelete(product)}> Supprimer
-              </Button>{' '}
-
-                {/* <button  
-                  onClick={() => onDelete(product)}> Supprimer
-                </button> */}
+              <div>
+                {user ? (
+                  <>
+                  <Button color="danger"
+                    onClick={() => onDelete(product)}> Supprimer
+                  </Button>{' '}
+                  </>
+                ) : (
+                  <>
+                    {/* <Link to="/login">Login</Link> */}
+                    {/* <Link to="/register">Register</Link>  */}
+                  </>
+                )} 
               </div>
               </span>
-              {/* <div className="plus"> 
-                <button className="see">Voir Plus</button>
-              </div> */}
             </div>
         
         <ModalArticle
@@ -161,12 +173,21 @@ export default function PlatChauds() {
         </div>
         );
       })}
-      <button
+      {user ? (
+        <>
+        <button
           className="btn btn-primary"
           onClick={() => setAddModalShow(true)}
         >
           Ajouter un article
-      </button>
+        </button>
+        </>
+      ) : (
+        <>
+          {/* <Link to="/login">Login</Link> */}
+          {/* <Link to="/register">Register</Link>  */}
+        </>
+      )} 
     </Section>
     
   );

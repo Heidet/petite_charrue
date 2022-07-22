@@ -3,14 +3,16 @@ import styled from "styled-components";
 import ModalHeaderServices from "./Modal";
 import { IoMdRestaurant } from "react-icons/io";
 import { GoCalendar } from "react-icons/go";
-import {useState, useEffect} from 'react';
-import { TitleStyles } from "../ReusableStyles";
+import {useState, useEffect, useContext} from 'react';
+import { TitleStyles } from "../../components/ReusableStyles";
 import API from "../../API";
 import { BsFillPencilFill } from "react-icons/bs";
+import AuthContext from "../../context/AuthContext";
 
 export default function Services() {
   const [modalShow, setModalShow] = useState(false);
   const [services, setServices] = useState([])
+  const { user, logoutUser } = useContext(AuthContext);
 
 
   useEffect(() => {
@@ -53,9 +55,18 @@ export default function Services() {
             <ServiceStyle>
               <h1 className="yellow">{services.title}</h1> 
               <span>
-                <ButtonEdit onClick={() => setModalShow(true)}>
-                  <BsFillPencilFill />
-                </ButtonEdit>
+                {user ? (
+                    <>
+                  <ButtonEdit onClick={() => setModalShow(true)}>
+                    <BsFillPencilFill />
+                  </ButtonEdit>
+                    </>
+                  ) : (
+                    <>
+                      {/* <Link to="/login">Login</Link> */}
+                      {/* <Link to="/register">Register</Link>  */}
+                    </>
+                  )}
               </span>
           
             </ServiceStyle>
@@ -64,9 +75,18 @@ export default function Services() {
                 <p>
                   {services.description}
                   <span>
+                  {user ? (
+                    <>
                     <ButtonEdit onClick={() => setModalShow(true)}>
                       <BsFillPencilFill />
                     </ButtonEdit>
+                    </>
+                  ) : (
+                    <>
+                      {/* <Link to="/login">Login</Link> */}
+                      {/* <Link to="/register">Register</Link>  */}
+                    </>
+                  )}
                   </span>
                 </p>
               </ServiceStyle>

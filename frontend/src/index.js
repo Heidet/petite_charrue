@@ -6,10 +6,10 @@ import Footer from "./components/Footer";
 import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 import Newsletter from "./components/Newsletter";
-import PlatChauds from "./components/Carte/PlatChauds";
+import PlatChauds from "./views/Carte/PlatChauds";
 import ScrollToTop from "./components/ScrollToTop";
-import Services from "./components/Services/Services";
-import Service from "./components/Service/Service";
+import Services from "./views/Services/Services";
+import Service from "./views/Service/Service";
 // import Multiselect from 'multiselect-react-dropdown';
 
 import Select from 'react-select'

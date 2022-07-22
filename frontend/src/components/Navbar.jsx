@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { GiConsoleController, GiHamburgerMenu } from "react-icons/gi";
 import { VscChromeClose } from "react-icons/vsc";
 import { browserHistory } from 'react-router'
-import { Dropdown, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem  } from 'reactstrap';
+import { Button, Dropdown, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem  } from 'reactstrap';
 
 import AuthContext from "../context/AuthContext";
 
@@ -37,20 +37,7 @@ export default function Navbar() {
   return (
     <>
       <Nav>
-        <div>
-          {user ? (
-            <>
-              {/* <Link to="/">Home</Link> */}
-              {/* <Link to="/protected">Protected Page</Link> */}
-              <button onClick={logoutUser}>Logout</button>
-            </>
-          ) : (
-            <>
-               <Link to="/login">Login</Link>
-              {/* <Link to="/register">Register</Link>  */}
-            </>
-          )}
-        </div>
+
         <div className="brand1">
           <p className="social-name">La Petite Charrue</p>
           <p className="social-name-two">Auberge du Terroir</p>
@@ -66,6 +53,24 @@ export default function Navbar() {
               />
             )}
           </div>
+        </div>
+        <div className="logout-button">
+            {user ? (
+              <>
+                {/* <Link to="/">Home</Link> */}
+                {/* <Link to="/protected">Protected Page</Link> */}
+                <Button onClick={logoutUser}color="danger">
+                Logout
+                </Button>
+                {' '}
+                {/* <button onClick={logoutUser}>Logout</button> */}
+              </>
+            ) : (
+              <>
+                {/* <Link to="/login">Login</Link> */}
+                {/* <Link to="/register">Register</Link>  */}
+              </>
+            )}
         </div>
         <ul className="links">
           <li>
@@ -171,13 +176,15 @@ export default function Navbar() {
 }
 
 
-
 const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 100px;
   padding: 0 4vw;
+  .logout-button{
+    margin-right: 25em;
+  }
   .brand1 {
     .social-name{
       color: #7a032a;

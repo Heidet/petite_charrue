@@ -1,18 +1,19 @@
 import React from "react";
 import cloche from "../../assets/cloche1.png";
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import styled from "styled-components";
 import { IoMdRestaurant } from "react-icons/io";
 import { GoCalendar } from "react-icons/go";
-import { TitleStyles } from "../ReusableStyles";
+import { TitleStyles } from "../../components/ReusableStyles";
 import API from "../../API";
 import ModalHeaderServices from "./Modal";
 import { BsFillPencilFill } from "react-icons/bs";
-
+import AuthContext from "../../context/AuthContext";
 
 export default function Service() {
   const [modalShow, setModalShow] = useState(false);
   const [services, setServices] = useState([])
+  const { user, logoutUser } = useContext(AuthContext);
 
   useEffect(() => {
     refreshService();
@@ -43,7 +44,7 @@ export default function Service() {
     if (services[0].id) {
       console.log(services)
       API.put(`api/service/${services[0].id}/`, services[0])
-        // .then((res) => this.refreshList());
+       .then((res) => refreshService());
       return;
     }
     API.post(`api/service/`, services)
@@ -54,39 +55,40 @@ export default function Service() {
   return (
     <Section>
     {services.map((service, index) => {
-
         return(
           <div className="services">
             
             <div className="service">
               <TraiteurStyle />
               <p>
-          
                 {service.content1}
-        
-                {/* <span>Lorem Ipsum</span>{" "} */}
               </p>
-              {/* <button>Read More</button> */}
             </div>
             <div className="service">
               <img src={cloche} alt="" />
               <p>
                 {service.content2}
-                { /* <span>Lorem Ipsum</span>{" "} */}
               </p>
-              {/* <button>Read More</button> */}
             </div>
             <div className="service">
               <EventFood />
               <p>
                 {service.content3}
                 <span>
-                  <ButtonEdit onClick={() => setModalShow(true)}>
-                    <BsFillPencilFill />
-                  </ButtonEdit>
+                  {user ? (
+                    <>
+                    <ButtonEdit onClick={() => setModalShow(true)}>
+                      <BsFillPencilFill />
+                    </ButtonEdit>
+                    </>
+                  ) : (
+                    <>
+                      {/* <Link to="/login">Login</Link> */}
+                      {/* <Link to="/register">Register</Link>  */}
+                    </>
+                  )}
                 </span>
               </p>
-              {/* <button>Read More</button> */}
             </div>
             <ModalHeaderServices
                 show={modalShow}
