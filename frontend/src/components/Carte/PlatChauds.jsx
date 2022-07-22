@@ -56,15 +56,6 @@ export default function PlatChauds() {
 
   
   const handlesubmit = (item) => {
-    console.log(item)
-    // let data = {
-    //   name : name,
-    //   description : description,
-    //   price : price,
-    //   article_img : article_img
-    // }
-    // console.log(data)
-
     if(item.id){
       let data = {
         id: item.id,
