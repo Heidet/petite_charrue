@@ -1,5 +1,5 @@
 import React from "react";
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import styled from "styled-components";
 import API from "../../API";
 import ModalArticle from "./Modal";
@@ -7,6 +7,8 @@ import SuccessModal from "./SuccessModal";
 import { Button } from 'reactstrap';
 import { imageZoomEffect, TitleStyles } from "../ReusableStyles";
 import { BsFillPencilFill } from "react-icons/bs";
+import AuthContext from "../../context/AuthContext";
+
 
 
 export default function PlatChauds() {
@@ -20,6 +22,7 @@ export default function PlatChauds() {
   const [price , setPrice] = useState("");
   const [article_img , setImage_url] = useState();
   const [active , setActiveItem] = useState([]);
+
 
 
   useEffect(() => {
@@ -93,8 +96,9 @@ export default function PlatChauds() {
     }
 
   }
-  
+
   return (
+    
     <Section>
       <div className="title"> 
         <h1>

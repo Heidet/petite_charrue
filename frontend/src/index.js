@@ -23,43 +23,36 @@ import ProtectedPage from "./views/ProtectedPage";
 
 
 ReactDOM.render(
-
   <Router>
-    <Route exact path="/login">
-      <div className="flex flex-col min-h-screen overflow-hidden">
-        <AuthProvider>
-          <Navbar />
-          <Switch>
-            <PrivateRoute component={ProtectedPage} path="/protected" exact />
-            <Route component={Login} path="/login" />
-            <Route component={Register} path="/register" />
-            {/* <Route component={Home} path="/" /> */}
-          </Switch>
-        </AuthProvider>
-        {/* <Footer /> */}
-      </div>
-    </Route>
-
-    <Route exact path="/">
-      <ScrollToTop />
-      <Navbar />
-      <Hero />
-      <Services />
-      <Service />
-      <Newsletter />
-      <Footer />
-    </Route>
-    <Route exact path="/plats-chauds">
-      <ScrollToTop />
-      <Navbar />
-      <PlatChauds />
-      <Footer />
-    </Route>
-
-
-    <Route path="*">
-      {/* <Error /> */}
-    </Route>
-  </Router>,
+    <div className="flex flex-col min-h-screen overflow-hidden">
+      <AuthProvider>
+        {/* <Navbar /> */}
+        <Switch>
+          <PrivateRoute component={ProtectedPage} path="/protected" exact />
+          <Route component={Login} path="/login" />
+          <Route component={Register} path="/register" />
+          {/* <Route component={Home} path="/" /> */}
+          <Route component={Home} exact path="/">
+            <ScrollToTop />
+            <Navbar />
+            <Hero />
+            <Services />
+            <Service />
+            <Newsletter />
+            <Footer />
+          </Route>
+          <Route exact path="/plats-chauds">
+            <ScrollToTop />
+            <Navbar />
+            <PlatChauds />
+            <Footer />
+          </Route>
+          <Route path="*">
+            {/* <Error /> */}
+          </Route>
+        </Switch>
+      </AuthProvider>
+    </div>
+</Router>,
   document.getElementById("root")
 );

@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Redirect } from 'react-router-dom'
+import React, { useState, useEffect, useContext } from "react";
+import { BrowserRouter as Router, Route, Routes, Redirect, Link } from 'react-router-dom'
 import styled from "styled-components";
 import { GiConsoleController, GiHamburgerMenu } from "react-icons/gi";
 import { VscChromeClose } from "react-icons/vsc";
 import { browserHistory } from 'react-router'
 import { Dropdown, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem  } from 'reactstrap';
 
-
+import AuthContext from "../context/AuthContext";
 
 export default function Navbar() {
   const [navbarState, setNavbarState] = useState(false);
-
+  const { user, logoutUser } = useContext(AuthContext);
   const html = document.querySelector("html");
   console.log(html)
   html.addEventListener("click", () => setNavbarState(false));
@@ -37,6 +37,20 @@ export default function Navbar() {
   return (
     <>
       <Nav>
+        <div>
+          {user ? (
+            <>
+              {/* <Link to="/">Home</Link> */}
+              {/* <Link to="/protected">Protected Page</Link> */}
+              <button onClick={logoutUser}>Logout</button>
+            </>
+          ) : (
+            <>
+               <Link to="/login">Login</Link>
+              {/* <Link to="/register">Register</Link>  */}
+            </>
+          )}
+        </div>
         <div className="brand1">
           <p className="social-name">La Petite Charrue</p>
           <p className="social-name-two">Auberge du Terroir</p>
